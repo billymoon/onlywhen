@@ -1,6 +1,6 @@
 /*
  * grunt-onlywhen
- * https://github.com/itaccess/onlywhen
+ * https://github.com/billymoon/onlywhen
  *
  * Copyright (c) 2014 Billy Moon
  * Licensed under the MIT license.
@@ -8,43 +8,28 @@
 
 'use strict';
 
-module.exports = function(grunt) {
+module.exports = function (grunt) {
 
-  // Please see the Grunt documentation for more information regarding task
-  // creation: http://gruntjs.com/creating-tasks
+	grunt.registerMultiTask('onlywhen', 'Only CODE_SNIPPET when BUILD_TYPE', function () {
+		// Merge task-specific and/or target-specific options with these defaults.
+		var options = this.options({
+			build_type: this.target || "remote"
+		});
+		// Iterate over all specified file groups.
+		this.files.forEach(function (f) {
 
-  grunt.registerMultiTask('onlywhen', 'Only CODE_SNIPPET when BUILD_CONFIG', function() {
-    // Merge task-specific and/or target-specific options with these defaults.
-    var options = this.options({
-      punctuation: '.',
-      separator: ', '
-    });
+			var src = grunt.file.read(f.src);
+			// Handle options.
+			src = src.replace(new RegExp("\\n?[\\t ]*<!--\\s*onlywhen:(.+?)\\s*-->((?:\\s|.)+?)\\s*<!--\\s*\/onlywhen\\s*-->", "mg"), function (discard, types, code) {
+				return types === options.build_type ? code : "";
+			});
 
-    // Iterate over all specified file groups.
-    this.files.forEach(function(f) {
-      // Concat specified files.
-      var src = f.src.filter(function(filepath) {
-        // Warn on and remove invalid source files (if nonull was set).
-        if (!grunt.file.exists(filepath)) {
-          grunt.log.warn('Source file "' + filepath + '" not found.');
-          return false;
-        } else {
-          return true;
-        }
-      }).map(function(filepath) {
-        // Read file source.
-        return grunt.file.read(filepath);
-      }).join(grunt.util.normalizelf(options.separator));
+			// Write the destination file.
+			grunt.file.write(f.dest, src);
 
-      // Handle options.
-      src += options.punctuation;
-
-      // Write the destination file.
-      grunt.file.write(f.dest, src);
-
-      // Print a success message.
-      grunt.log.writeln('File "' + f.dest + '" created.');
-    });
-  });
+			// Print a success message.
+			grunt.log.writeln('File "' + f.dest + '" created.');
+		});
+	});
 
 };

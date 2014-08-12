@@ -37,53 +37,48 @@ grunt.initConfig({
 
 ### Options
 
-#### options.separator
+#### options.build_type
 Type: `String`
-Default value: `',  '`
+Default value: grunt sub-task
 
-A string value that is used to do something with whatever.
-
-#### options.punctuation
-Type: `String`
-Default value: `'.'`
-
-A string value that is used to do something else with whatever else.
+The build type that should be used to determine which code snippets are shown
 
 ### Usage Examples
 
-#### Default Options
-In this example, the default options are used to do something with whatever. So if the `testing` file has the content `Testing` and the `123` file had the content `1 2 3`, the generated result would be `Testing, 1 2 3.`
-
-```js
-grunt.initConfig({
-  onlywhen: {
-    options: {},
-    files: {
-      'dest/default_options': ['src/testing', 'src/123'],
-    },
-  },
-});
-```
-
 #### Custom Options
-In this example, custom options are used to do something else with whatever else. So if the `testing` file has the content `Testing` and the `123` file had the content `1 2 3`, the generated result in this case would be `Testing: 1 2 3 !!!`
+This is the most basic example of a page being built for two configurations (`develop` and `dist`).
+
+** index.html **
+```html
+<!-- onlywhen:develop -->
+<p class="banner">This only shows up during development</p>
+<!-- /onlywhen -->
+<p>... just some regular html ...</p>
+```
+
+** Gruntfile.js **
 
 ```js
 grunt.initConfig({
-  onlywhen: {
-    options: {
-      separator: ': ',
-      punctuation: ' !!!',
-    },
-    files: {
-      'dest/default_options': ['src/testing', 'src/123'],
-    },
-  },
+	onlywhen: {
+		develop: {
+			files: {
+				'tmp/index.html': ['index.html']
+			}
+		},
+		dist: {
+			files: {
+				'tmp/index.html': ['index.html']
+			}		
+		}
+	}
 });
 ```
+
+Running `grunt onlywhen:develop` will render an html page in the `tmp` directory including a banner, but `grunt onlywhen:dist` will strip out then banner.
 
 ## Contributing
 In lieu of a formal styleguide, take care to maintain the existing coding style. Add unit tests for any new or changed functionality. Lint and test your code using [Grunt](http://gruntjs.com/).
 
 ## Release History
-_(Nothing yet)_
+0.1.0 first release
