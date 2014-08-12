@@ -44,5 +44,14 @@ exports.onlywhen = {
 		test.equal(actual, expected, 'when run remote task, should populate with remote data.');
 
 		test.done();
+	},
+	dist_task: function (test) {
+		test.expect(1);
+
+		var actual = grunt.file.read('tmp/dist-index.html');
+		var expected = grunt.file.read('test/expected/dist-index.html');
+		test.equal(actual, expected, 'when run dist task, should remove all onlywhen conditional blocks.');
+
+		test.done();
 	}
 };
