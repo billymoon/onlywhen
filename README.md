@@ -48,7 +48,7 @@ The build type that should be used to determine which code snippets are shown
 #### Custom Options
 This is the most basic example of a page being built for two configurations (`develop` and `dist`).
 
-** index.html **
+**index.html**
 ```html
 <!-- onlywhen:develop -->
 <p class="banner">This only shows up during development</p>
@@ -56,7 +56,7 @@ This is the most basic example of a page being built for two configurations (`de
 <p>... just some regular html ...</p>
 ```
 
-** Gruntfile.js **
+**Gruntfile.js**
 
 ```js
 grunt.initConfig({
