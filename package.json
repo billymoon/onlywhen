@@ -1,7 +1,7 @@
 {
   "name": "grunt-onlywhen",
   "description": "Only CODE_SNIPPET when BUILD_CONFIG",
-  "version": "0.1.0",
+  "version": "0.1.1",
   "homepage": "https://github.com/billymoon/onlywhen",
   "author": {
     "name": "Billy Moon",
@@ -33,7 +33,7 @@
     "grunt": "~0.4.5"
   },
   "peerDependencies": {
-    "grunt": "~0.4.5"
+    "grunt": "~0.4.0"
   },
   "keywords": [
     "gruntplugin"
